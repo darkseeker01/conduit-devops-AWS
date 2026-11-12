@@ -1,0 +1,37 @@
+{
+  "family": "conduit-frontend",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::941215143833:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "conduit-frontend",
+      "image": "941215143833.dkr.ecr.us-east-1.amazonaws.com/conduit-frontend:v2",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "protocol": "tcp"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "conduit-frontend",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}
+
+
+
+
+
+
+
+

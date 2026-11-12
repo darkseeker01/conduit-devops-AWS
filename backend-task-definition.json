@@ -1,0 +1,65 @@
+{
+  "family": "conduit-backend",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::941215143833:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "conduit-backend",
+      "image": "941215143833.dkr.ecr.us-east-1.amazonaws.com/conduit-backend:v1",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 3001,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "NODE_ENV",
+          "value": "production"
+        },
+        {
+          "name": "PORT",
+          "value": "3001"
+        },
+        {
+          "name": "PROD_DB_USERNAME",
+          "value": "conduitadmin"
+        },
+        {
+          "name": "PROD_DB_NAME",
+          "value": "conduit"
+        },
+        {
+          "name": "PROD_DB_HOSTNAME",
+          "value": "conduit-mysql.c2vyuq8qoq2m.us-east-1.rds.amazonaws.com"
+        },
+        {
+          "name": "PROD_DB_DIALECT",
+          "value": "mysql"
+        },
+        {
+          "name": "PROD_DB_LOGGING",
+          "value": "false"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "PROD_DB_PASSWORD",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:941215143833:secret:rds!db-497b39fc-5c30-4111-a6b3-3f628cd60866-pfQg6s:password::"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "conduit-backend",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}
